@@ -1,7 +1,7 @@
-import 'package:check_elec/screens/homepage/homepage.dart';
-import 'package:check_elec/screens/profil/profil.dart';
-import 'package:check_elec/screens/statistiques/statistcs.dart';
+import 'package:check_elec/screens/root/homepage/homepage.dart';
+import 'package:check_elec/screens/root/statistiques/statistcs.dart';
 import 'package:check_elec/widgets/bottomNavigationBar/custtom_navigation_bar.dart';
+import 'package:check_elec/screens/root/profil/profil.dart';
 import 'package:flutter/material.dart';
 
 class Root extends StatefulWidget {

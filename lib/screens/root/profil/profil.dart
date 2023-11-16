@@ -1,3 +1,4 @@
+import 'package:check_elec/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
 
@@ -22,7 +23,14 @@ class _MyMyProlileState extends State<MyMyProlile> {
           splashColor: CustumTheme.orangeMainColor.withOpacity(0.2),
           child: Padding(
             padding: const EdgeInsets.only(left: 15),
-            child: Image.asset("assets/icons/settings.png"),
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Settings()));
+                },
+                child: Image.asset("assets/icons/settings.png")),
           ),
         ),
         actions: [

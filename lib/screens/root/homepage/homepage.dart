@@ -1,4 +1,5 @@
 import 'package:check_elec/constant/custumTheme.dart';
+import 'package:check_elec/settings.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -22,7 +23,14 @@ class _MyHomePageState extends State<MyHomePage> {
             splashColor: CustumTheme.orangeMainColor.withOpacity(0.2),
             child: Padding(
               padding: const EdgeInsets.only(left: 15),
-              child: Image.asset("assets/icons/settings.png"),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Settings()));
+                  },
+                  child: Image.asset("assets/icons/settings.png")),
             ),
           ),
           actions: [
@@ -79,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 const SizedBox(height: 10),
                 Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   width: double.infinity,
                   height: 200,
                   decoration: ShapeDecoration(
@@ -150,18 +158,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      servicesCard("assets/icons/nineSquareIcon.png",
-                          "Faire un \nrechargement"),
-                      servicesCard("assets/icons/calendar.png",
-                          "Voir mes \nprédictions"),
-                      servicesCard(
-                          "assets/icons/history.png", "Voir mon \nhistorique"),
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    servicesCard("assets/icons/nineSquareIcon.png",
+                        "Faire un \nrechargement"),
+                    servicesCard(
+                        "assets/icons/calendar.png", "Voir mes \nprédictions"),
+                    servicesCard(
+                        "assets/icons/history.png", "Voir mon \nhistorique"),
+                  ],
                 )
               ],
             ),
@@ -174,8 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
       children: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 5),
-          width: 90,
-          height: 112,
+          width: 100,
+          height: 122,
           decoration: ShapeDecoration(
             color: Colors.white,
             shape:
