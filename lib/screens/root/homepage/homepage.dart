@@ -1,5 +1,9 @@
 import 'package:check_elec/constant/custumTheme.dart';
-import 'package:check_elec/settings.dart';
+import 'package:check_elec/screens/pages/notifications.dart';
+import 'package:check_elec/screens/pages/previsions.dart';
+import 'package:check_elec/screens/pages/rechargeScreen.dart';
+
+import 'package:check_elec/screens/settings.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -20,21 +24,24 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Settings()));
+            },
             splashColor: CustumTheme.orangeMainColor.withOpacity(0.2),
             child: Padding(
               padding: const EdgeInsets.only(left: 15),
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Settings()));
-                  },
-                  child: Image.asset("assets/icons/settings.png")),
+              child: Image.asset("assets/icons/settings.png"),
             ),
           ),
           actions: [
             InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Notifications()));
+              },
               splashColor: Colors.orange.withOpacity(0.2),
               child: Padding(
                 padding: const EdgeInsets.only(right: 25),
@@ -44,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(25),
+          padding: const EdgeInsets.all(15),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,16 +165,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    servicesCard("assets/icons/nineSquareIcon.png",
-                        "Faire un \nrechargement"),
-                    servicesCard(
-                        "assets/icons/calendar.png", "Voir mes \nprédictions"),
-                    servicesCard(
-                        "assets/icons/history.png", "Voir mon \nhistorique"),
-                  ],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      servicesCard("assets/icons/nineSquareIcon.png",
+                          "Faire un \nrechargement", const RechargeScreen()),
+                      servicesCard("assets/icons/calendar.png",
+                          "Voir mes \nprédictions", const Previsions()),
+                      servicesCard("assets/icons/history.png",
+                          "Voir mon \nhistorique", const RechargeScreen()),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -175,19 +184,26 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
-  Column servicesCard(String asset, title) {
+  Column servicesCard(String asset, title, Widget widget) {
     return Column(
       children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 5),
-          width: 100,
-          height: 122,
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => widget));
+          },
+          splashColor: Colors.orange.withOpacity(0.2),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            width: 100,
+            height: 122,
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(9)),
+            ),
+            child: Image.asset(asset),
           ),
-          child: Image.asset(asset),
         ),
         const SizedBox(height: 2.5),
         Text(

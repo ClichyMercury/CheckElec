@@ -1,5 +1,5 @@
 import 'package:check_elec/constant/palette.dart';
-import 'package:check_elec/screens/root.dart';
+import 'package:check_elec/screens/connection/connection.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange.shade500),
         useMaterial3: true,
       ),
-      home: const Root(),
+      home: const ConnectionScreen(),
     );
   }
 }
