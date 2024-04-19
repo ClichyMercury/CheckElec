@@ -15,7 +15,7 @@ class _PrevisionsState extends State<Previsions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF3F2F7),
+      backgroundColor: CustumTheme.bgColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -32,7 +32,7 @@ class _PrevisionsState extends State<Previsions> {
         ),
         actions: [
           InkWell(
-            splashColor: Colors.orange.withOpacity(0.2),
+          splashColor: CustumTheme.orangeMainColor.withOpacity(0.2),
             child: const Padding(
                 padding: EdgeInsets.only(right: 25),
                 child: Text(

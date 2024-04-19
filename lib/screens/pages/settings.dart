@@ -14,7 +14,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xffF3F2F7),
+        backgroundColor: CustumTheme.bgColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -31,7 +31,7 @@ class _SettingsState extends State<Settings> {
           ),
           actions: [
             InkWell(
-              splashColor: Colors.orange.withOpacity(0.2),
+            splashColor: CustumTheme.orangeMainColor.withOpacity(0.2),
               child: const Padding(
                   padding: const EdgeInsets.only(right: 25),
                   child: Text(
@@ -48,10 +48,10 @@ class _SettingsState extends State<Settings> {
               children: [
                 Row(
                   children: [
-                    const Text(
+                     const Text(
                       'Partage',
                       style: TextStyle(
-                        color: Color(0xFF9B9B9B),
+                        color: CustumTheme.textColor,
                         fontSize: 15,
                         fontFamily: 'Isophan',
                         fontWeight: FontWeight.w100,

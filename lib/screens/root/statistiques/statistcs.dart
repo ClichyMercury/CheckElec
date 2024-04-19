@@ -1,7 +1,7 @@
 import 'package:check_elec/constant/custumTheme.dart';
-import 'package:check_elec/screens/settings.dart';
-import 'package:check_elec/widgets/statHistory.dart';
-import 'package:check_elec/widgets/timeSelection.dart';
+import 'package:check_elec/screens/pages/settings.dart';
+import 'package:check_elec/screens/root/statistiques/widgets/statHistory.dart';
+import 'package:check_elec/screens/root/statistiques/widgets/timeSelection.dart';
 import 'package:flutter/material.dart';
 
 class MyStatistics extends StatefulWidget {
@@ -16,6 +16,8 @@ class MyStatistics extends StatefulWidget {
 class _MyStatisticsState extends State<MyStatistics> {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: const Color(0xffF3F2F7),
         appBar: AppBar(
@@ -23,11 +25,9 @@ class _MyStatisticsState extends State<MyStatistics> {
           elevation: 0,
           leading: InkWell(
             onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Settings()));
-                },
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Settings()));
+            },
             splashColor: CustumTheme.orangeMainColor.withOpacity(0.2),
             child: Padding(
               padding: const EdgeInsets.only(left: 15),
@@ -79,7 +79,7 @@ class _MyStatisticsState extends State<MyStatistics> {
                 const SizedBox(height: 45),
                 Container(
                   width: double.infinity,
-                  height: 150,
+                  height: width / 2.4,
                   padding: const EdgeInsets.all(25),
                   decoration: ShapeDecoration(
                     color: Colors.white,
@@ -94,7 +94,7 @@ class _MyStatisticsState extends State<MyStatistics> {
                         'Total des dépenses',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 15,
+                          fontSize: width / 18,
                           fontWeight: FontWeight.w100,
                         ),
                       ),
@@ -106,7 +106,7 @@ class _MyStatisticsState extends State<MyStatistics> {
                             '7.502 F CFA',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 22,
+                              fontSize: width / 15,
                               fontWeight: FontWeight.w100,
                             ),
                           ),
@@ -119,7 +119,7 @@ class _MyStatisticsState extends State<MyStatistics> {
                             '62.16 KWh',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 22,
+                              fontSize: width / 15,
                               fontWeight: FontWeight.w100,
                             ),
                           )
@@ -128,10 +128,10 @@ class _MyStatisticsState extends State<MyStatistics> {
                     ],
                   ),
                 ),
-                SizedBox(height: 45),
                 Container(
+                  margin: EdgeInsets.symmetric(vertical: height / 40),
                   width: double.infinity,
-                  height: 300,
+                  height: height / 2.1,
                   padding: const EdgeInsets.all(15),
                   decoration: ShapeDecoration(
                     color: Colors.white,

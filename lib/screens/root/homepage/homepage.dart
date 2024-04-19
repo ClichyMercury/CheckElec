@@ -2,8 +2,8 @@ import 'package:check_elec/constant/custumTheme.dart';
 import 'package:check_elec/screens/pages/notifications.dart';
 import 'package:check_elec/screens/pages/previsions.dart';
 import 'package:check_elec/screens/pages/rechargeScreen.dart';
-
-import 'package:check_elec/screens/settings.dart';
+import 'package:check_elec/screens/root/homepage/widgets/ServicesCard.dart';
+import 'package:check_elec/screens/pages/settings.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,6 +18,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
         backgroundColor: const Color(0xffF3F2F7),
         appBar: AppBar(
@@ -59,15 +62,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 Row(
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width / 2.5,
-                      height: 50,
+                      height: height / 18,
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       decoration: ShapeDecoration(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(9)),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -75,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             'Compteur',
                             style: TextStyle(
                               color: Color(0xFF3D3D3D),
-                              fontSize: 11,
+                              fontSize: width / 32,
                               fontWeight: FontWeight.w100,
                             ),
                           ),
@@ -83,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             '37154939526',
                             style: TextStyle(
                               color: Color(0xFF3D3D3D),
-                              fontSize: 11,
+                              fontSize: width / 32,
                               fontWeight: FontWeight.w100,
                             ),
                           ),
@@ -96,15 +98,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   width: double.infinity,
-                  height: 200,
+                  height: width / 2.2,
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                   ),
-                  child: const Column(
+                  child: Column(
                     children: [
-                      SizedBox(height: 15),
                       Text.rich(
                         TextSpan(
                           children: [
@@ -112,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               text: '23.92 KWh\n',
                               style: TextStyle(
                                 color: CustumTheme.orangeMainColor,
-                                fontSize: 45,
+                                fontSize: width / 7.5,
                                 fontWeight: FontWeight.w100,
                               ),
                             ),
@@ -120,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               text: '≈',
                               style: TextStyle(
                                 color: CustumTheme.orangeMainColor,
-                                fontSize: 24,
+                                fontSize: width / 20,
                                 fontWeight: FontWeight.w100,
                               ),
                             ),
@@ -128,16 +129,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 10),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
                             'Dernier rechargement',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: CustumTheme.textColor,
-                              fontSize: 12,
+                              fontSize: width / 32,
                               fontWeight: FontWeight.w100,
                             ),
                           ),
@@ -146,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: CustumTheme.textColor,
-                              fontSize: 12,
+                              fontSize: width / 32,
                               fontWeight: FontWeight.w100,
                             ),
                           )
@@ -155,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 35),
+                SizedBox(height: height / 10),
                 const Text(
                   'Mes services',
                   style: TextStyle(
@@ -165,16 +166,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                SingleChildScrollView(
+                const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      servicesCard("assets/icons/nineSquareIcon.png",
-                          "Faire un \nrechargement", const RechargeScreen()),
-                      servicesCard("assets/icons/calendar.png",
-                          "Voir mes \nprédictions", const Previsions()),
-                      servicesCard("assets/icons/history.png",
-                          "Voir mon \nhistorique", const RechargeScreen()),
+                      ServicesCard(
+                          asset: "assets/icons/nineSquareIcon.png",
+                          title: "Faire un \nrechargement",
+                          widget: RechargeScreen()),
+                      ServicesCard(
+                          asset: "assets/icons/calendar.png",
+                          title: "Voir mes \nprédictions",
+                          widget: Previsions()),
+                      ServicesCard(
+                          asset: "assets/icons/history.png",
+                          title: "Voir mon \nhistorique",
+                          widget: RechargeScreen()),
                     ],
                   ),
                 )
@@ -182,40 +189,5 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ));
-  }
-
-  Column servicesCard(String asset, title, Widget widget) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => widget));
-          },
-          splashColor: Colors.orange.withOpacity(0.2),
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 5),
-            width: 100,
-            height: 122,
-            decoration: ShapeDecoration(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9)),
-            ),
-            child: Image.asset(asset),
-          ),
-        ),
-        const SizedBox(height: 2.5),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 12,
-            fontWeight: FontWeight.w100,
-          ),
-        )
-      ],
-    );
   }
 }

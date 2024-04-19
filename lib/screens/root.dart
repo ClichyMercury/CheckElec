@@ -34,9 +34,11 @@ class _RootState extends State<Root> {
         index: currentIndex,
         children: screens,
       ),
-      bottomNavigationBar: CustomNavigationBar(
-        changeIndex: changeIndex,
-        currentIndex: currentIndex,
+      bottomNavigationBar: SafeArea(
+        child: CustomNavigationBar(
+          changeIndex: changeIndex,
+          currentIndex: currentIndex,
+        ),
       ),
     );
   }

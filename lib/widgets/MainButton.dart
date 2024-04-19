@@ -22,6 +22,8 @@ class Mainbutton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: loading ? null : onTap,
+      behavior: HitTestBehavior
+          .translucent, // Permet de détecter le geste même sur la zone de l'effet visuel
       child: Container(
         height: 61,
         decoration: ShapeDecoration(
@@ -40,16 +42,14 @@ class Mainbutton extends StatelessWidget {
               ),
             loading
                 ? const Loader()
-                : Text(
-                    text,
+                : Text(text,
                     style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontFamily: 'Isophan',
-              fontWeight: FontWeight.w100,
-              height: 0,
-            )
-                  )
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontFamily: 'Isophan',
+                      fontWeight: FontWeight.w100,
+                      height: 0,
+                    ))
           ],
         ),
       ),

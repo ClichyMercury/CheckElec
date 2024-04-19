@@ -1,8 +1,10 @@
 import 'package:check_elec/screens/root.dart';
 import 'package:check_elec/widgets/MainButton.dart';
 import 'package:check_elec/widgets/alertDialog.dart';
+import 'package:check_elec/widgets/iosAlertDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
+import 'dart:io' show Platform;
 
 class EnregistrementCompteurScreen extends StatefulWidget {
   const EnregistrementCompteurScreen({
@@ -32,19 +34,21 @@ class _EnregistrementCompteurScreenState
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color(0xffF3F2F7),
+      backgroundColor: CustumTheme.bgColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              SizedBox(height: 35),
+              SizedBox(height: height / 6.5),
               Text(
                 'Enregistrement\nCompteur',
-                style: TextStyle(fontSize: 35),
+                style: TextStyle(fontSize: width / 10),
               ),
-              SizedBox(height: 35),
+              SizedBox(height: height / 25.5),
               TextField(
                 showCursor: true,
                 focusNode: localFocusNode,
@@ -203,11 +207,19 @@ class _EnregistrementCompteurScreenState
                           MaterialPageRoute(
                               builder: (context) => const Root()));
                     } else {
-                      showAlertDialog(context,
-                          title: "Verifiez les champs",
-                          content:
-                              "Verifiez bien que Tous les champs ont été correctement rempli avant de valider le formulaire d'inscription",
-                          defaultActionText: "OK");
+                      if (Platform.isIOS) {
+                        iosShowAlertDialog(context,
+                            title: "Verifiez les champs",
+                            content:
+                                "Verifiez bien que Tous les champs ont été correctement rempli avant de valider le formulaire d'enregistrement des informations du compteur",
+                            defaultActionText: "OK");
+                      } else {
+                        showAlertDialog(context,
+                            title: "Verifiez les champs",
+                            content:
+                                "Verifiez bien que Tous les champs ont été correctement rempli avant de valider le formulaire d'enregistrement des informations du compteur",
+                            defaultActionText: "OK");
+                      }
                     }
                   },
                   text: 'Continuer',
@@ -223,7 +235,7 @@ class _EnregistrementCompteurScreenState
 
   TextStyle textFieldTextStyle() {
     return const TextStyle(
-      color: Color(0xFF6C6C6C),
+      color: CustumTheme.textColor,
       fontSize: 12,
       fontFamily: 'Isophan',
       fontWeight: FontWeight.w100,

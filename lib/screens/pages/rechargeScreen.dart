@@ -1,3 +1,4 @@
+import 'package:check_elec/widgets/FloatingMainButton.dart';
 import 'package:check_elec/widgets/datePicker.dart';
 import 'package:check_elec/widgets/timePicker.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF3F2F7),
+      backgroundColor: CustumTheme.bgColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -41,7 +42,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
         ),
         actions: [
           InkWell(
-            splashColor: Colors.orange.withOpacity(0.2),
+            splashColor: CustumTheme.orangeMainColor.withOpacity(0.2),
             child: const Padding(
                 padding: EdgeInsets.only(right: 25),
                 child: Text(
@@ -66,15 +67,9 @@ class _RechargeScreenState extends State<RechargeScreen> {
                 keyboardType: TextInputType.number,
                 controller: energyValue,
                 decoration: InputDecoration(
-                  label: const Text(
+                  label: Text(
                     'Valeur energétique disponible au compteur',
-                    style: TextStyle(
-                      color: Color(0xFF6C6C6C),
-                      fontSize: 12,
-                      fontFamily: 'Isophan',
-                      fontWeight: FontWeight.w100,
-                      height: 0,
-                    ),
+                    style: textFieldTextStyle(),
                   ),
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -95,15 +90,9 @@ class _RechargeScreenState extends State<RechargeScreen> {
                 keyboardType: TextInputType.number,
                 controller: rechargeValue,
                 decoration: InputDecoration(
-                  label: const Text(
+                  label: Text(
                     'Montant de la nouvelle recharge',
-                    style: TextStyle(
-                      color: Color(0xFF6C6C6C),
-                      fontSize: 12,
-                      fontFamily: 'Isophan',
-                      fontWeight: FontWeight.w100,
-                      height: 0,
-                    ),
+                    style: textFieldTextStyle(),
                   ),
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -124,15 +113,9 @@ class _RechargeScreenState extends State<RechargeScreen> {
                 keyboardType: TextInputType.number,
                 controller: newRechargeValue,
                 decoration: InputDecoration(
-                  label: const Text(
+                  label: Text(
                     'Valeur energetique de la nouvelle recharge',
-                    style: TextStyle(
-                      color: Color(0xFF6C6C6C),
-                      fontSize: 12,
-                      fontFamily: 'Isophan',
-                      fontWeight: FontWeight.w100,
-                      height: 0,
-                    ),
+                    style: textFieldTextStyle(),
                   ),
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -160,7 +143,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20.50)),
                       //recuperation en string à gerer.
-                      
+
                       child: TimePickerWidget()),
                 ],
               ),
@@ -169,31 +152,19 @@ class _RechargeScreenState extends State<RechargeScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: GestureDetector(
-        onTap: () {},
-        child: Container(
-          height: 61,
-          decoration: ShapeDecoration(
-            color: Color(0xFFF28D20),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15))),
-          ),
-          child: Center(
-            child: Text(
-              'Enregistrer',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontFamily: 'Isophan',
-                fontWeight: FontWeight.w100,
-                height: 0,
-              ),
-            ),
-          ),
-        ),
+      floatingActionButton: const FloatingActionMainButton(
+        title: "Enregistrer",
+        color: CustumTheme.orangeMainColor,
       ),
+    );
+  }
+
+  TextStyle textFieldTextStyle() {
+    return const TextStyle(
+      color: CustumTheme.textColor,
+      fontSize: 12,
+      fontWeight: FontWeight.w100,
+      height: 0,
     );
   }
 }

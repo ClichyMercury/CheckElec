@@ -2,8 +2,10 @@ import 'package:check_elec/screens/connection/inscription.dart';
 import 'package:check_elec/screens/root.dart';
 import 'package:check_elec/widgets/MainButton.dart';
 import 'package:check_elec/widgets/alertDialog.dart';
+import 'package:check_elec/widgets/iosAlertDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
+import 'dart:io' show Platform;
 
 class ConnectionScreen extends StatefulWidget {
   const ConnectionScreen({
@@ -25,19 +27,21 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color(0xffF3F2F7),
+      backgroundColor: CustumTheme.bgColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              SizedBox(height: 55),
+              SizedBox(height: height / 4.0),
               Text(
                 'Connexion',
-                style: TextStyle(fontSize: 35),
+                style: TextStyle(fontSize: width / 10),
               ),
-              SizedBox(height: 55),
+              SizedBox(height: height / 25.5),
               TextField(
                 showCursor: true,
                 focusNode: emailFocusNode,
@@ -138,11 +142,19 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Root()));
                     } else {
-                      showAlertDialog(context,
-                          title: "Verifiez les champs",
-                          content:
-                              "Verifiez bien que les champs email et password ont été correctement rempli avant de valider le formulaire de connexion",
-                          defaultActionText: "OK");
+                      if (Platform.isIOS) {
+                        iosShowAlertDialog(context,
+                            title: "Verifiez les champs",
+                            content:
+                                "Verifiez bien que les champs email et password ont été correctement rempli avant de valider le formulaire de connexion",
+                            defaultActionText: "OK");
+                      } else {
+                        showAlertDialog(context,
+                            title: "Verifiez les champs",
+                            content:
+                                "Verifiez bien que les champs email et password ont été correctement rempli avant de valider le formulaire de connexion",
+                            defaultActionText: "OK");
+                      }
                     }
                   },
                   text: 'Connection',
@@ -176,18 +188,12 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-      floatingActionButton: Image.asset(
-        "assets/images/Softskills.png",
-        height: 45,
-      ),
     );
   }
 
   TextStyle textFieldTextStyle() {
     return const TextStyle(
-      color: Color(0xFF6C6C6C),
+      color: CustumTheme.textColor,
       fontSize: 12,
       fontFamily: 'Isophan',
       fontWeight: FontWeight.w100,

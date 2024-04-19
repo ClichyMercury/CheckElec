@@ -14,7 +14,7 @@ class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF3F2F7),
+      backgroundColor: CustumTheme.bgColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -31,7 +31,7 @@ class _NotificationsState extends State<Notifications> {
         ),
         actions: [
           InkWell(
-            splashColor: Colors.orange.withOpacity(0.2),
+          splashColor: CustumTheme.orangeMainColor.withOpacity(0.2),
             child: const Padding(
                 padding: EdgeInsets.only(right: 25),
                 child: Text(
@@ -57,7 +57,7 @@ class _NotificationsState extends State<Notifications> {
                 'Vous n’avez aucune notification',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF9B9B9B),
+                  color: CustumTheme.textColor,
                   fontSize: 15,
                   fontWeight: FontWeight.w100,
                 ),

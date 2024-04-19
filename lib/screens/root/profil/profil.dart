@@ -1,4 +1,4 @@
-import 'package:check_elec/screens/settings.dart';
+import 'package:check_elec/screens/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
 
@@ -14,6 +14,8 @@ class MyMyProlile extends StatefulWidget {
 class _MyMyProlileState extends State<MyMyProlile> {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color(0xffF3F2F7),
       appBar: AppBar(
@@ -33,7 +35,7 @@ class _MyMyProlileState extends State<MyMyProlile> {
         actions: [
           InkWell(
             splashColor: Colors.orange.withOpacity(0.2),
-            child: Padding(
+            child: const Padding(
                 padding: const EdgeInsets.only(right: 25),
                 child: Text(
                   "Mon Profil",
@@ -49,26 +51,23 @@ class _MyMyProlileState extends State<MyMyProlile> {
             children: [
               Row(
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height / 6.5,
-                    width: MediaQuery.of(context).size.height / 6.5,
-                    decoration: BoxDecoration(
-                        color: CustumTheme.orangeMainColor,
-                        borderRadius: BorderRadius.circular(60)),
+                  CircleAvatar(
+                    radius: height / 13,
+                    backgroundColor: CustumTheme.orangeMainColor,
                   ),
                   Container(
                     padding: EdgeInsets.all(15),
-                    height: 150,
-                    width: 200,
+                    height: height / 4.7,
+                    width: width / 1.8,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'GAEL SANSAN',
+                            'GAEL SASSAN',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize: width / 18,
                               fontFamily: 'Isophan',
                               fontWeight: FontWeight.w100,
                             ),
@@ -76,8 +75,8 @@ class _MyMyProlileState extends State<MyMyProlile> {
                           Text(
                             '+225 07 68 70 73 74',
                             style: TextStyle(
-                              color: Color(0xFF9B9B9B),
-                              fontSize: 11,
+                              color: CustumTheme.textColor,
+                              fontSize: width / 30,
                               fontFamily: 'Isophan',
                               fontWeight: FontWeight.w100,
                             ),
@@ -85,8 +84,8 @@ class _MyMyProlileState extends State<MyMyProlile> {
                           Text(
                             'gaelelscientifico@gmail.com',
                             style: TextStyle(
-                              color: Color(0xFF9B9B9B),
-                              fontSize: 11,
+                              color: CustumTheme.textColor,
+                              fontSize: width / 30,
                               fontFamily: 'Isophan',
                               fontWeight: FontWeight.w100,
                             ),
@@ -94,8 +93,8 @@ class _MyMyProlileState extends State<MyMyProlile> {
                           Text(
                             'II Plateaux',
                             style: TextStyle(
-                              color: Color(0xFF9B9B9B),
-                              fontSize: 11,
+                              color: CustumTheme.textColor,
+                              fontSize: width / 30,
                               fontFamily: 'Isophan',
                               fontWeight: FontWeight.w100,
                             ),

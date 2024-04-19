@@ -16,10 +16,12 @@ class StatHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      width: 300,
-      height: 95,
+      width: width / 1.1,
+      height: height / 7.80,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -36,7 +38,7 @@ class StatHistory extends StatelessWidget {
                       text: '$dateNumber ',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 18,
+                        fontSize: height / 49,
                         fontWeight: FontWeight.w100,
                       ),
                     ),
@@ -44,7 +46,7 @@ class StatHistory extends StatelessWidget {
                       text: dateMonth,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 10,
+                        fontSize: height / 79,
                         fontWeight: FontWeight.w100,
                       ),
                     ),
