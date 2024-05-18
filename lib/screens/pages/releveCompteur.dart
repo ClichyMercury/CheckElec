@@ -4,16 +4,16 @@ import 'package:check_elec/widgets/timePicker.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
 
-class RechargeScreen extends StatefulWidget {
-  const RechargeScreen({
+class ReleveCompteurScreen extends StatefulWidget {
+  const ReleveCompteurScreen({
     super.key,
   });
 
   @override
-  State<RechargeScreen> createState() => _RechargeScreenState();
+  State<ReleveCompteurScreen> createState() => _ReleveCompteurScreenState();
 }
 
-class _RechargeScreenState extends State<RechargeScreen> {
+class _ReleveCompteurScreenState extends State<ReleveCompteurScreen> {
   TextEditingController energyValue = TextEditingController();
   TextEditingController rechargeValue = TextEditingController();
   TextEditingController newRechargeValue = TextEditingController();
@@ -46,7 +46,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
             child: const Padding(
                 padding: EdgeInsets.only(right: 25),
                 child: Text(
-                  "Bulletin de rechargement",
+                  "Releve du compteur",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 )),
           ),
@@ -69,52 +69,6 @@ class _RechargeScreenState extends State<RechargeScreen> {
                 decoration: InputDecoration(
                   label: Text(
                     'Valeur energétique disponible au compteur',
-                    style: textFieldTextStyle(),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.50),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                showCursor: true,
-                focusNode: rechargeValueFocus,
-                textInputAction: TextInputAction.next,
-                autocorrect: false,
-                textAlignVertical: TextAlignVertical.center,
-                keyboardType: TextInputType.number,
-                controller: rechargeValue,
-                decoration: InputDecoration(
-                  label: Text(
-                    'Montant de la nouvelle recharge',
-                    style: textFieldTextStyle(),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.50),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                showCursor: true,
-                focusNode: newRechargeValueFocus,
-                textInputAction: TextInputAction.next,
-                autocorrect: false,
-                textAlignVertical: TextAlignVertical.center,
-                keyboardType: TextInputType.number,
-                controller: newRechargeValue,
-                decoration: InputDecoration(
-                  label: Text(
-                    'Valeur energetique de la nouvelle recharge',
                     style: textFieldTextStyle(),
                   ),
                   contentPadding:

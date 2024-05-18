@@ -36,7 +36,10 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              SizedBox(height: height / 4.0),
+              SizedBox(height: height / 6.5),
+              Image.asset(
+                'assets/images/logo_whitout_bg.PNG',
+              ),
               Text(
                 'Connexion',
                 style: TextStyle(fontSize: width / 10),

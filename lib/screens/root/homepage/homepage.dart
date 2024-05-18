@@ -2,6 +2,7 @@ import 'package:check_elec/constant/custumTheme.dart';
 import 'package:check_elec/screens/pages/notifications.dart';
 import 'package:check_elec/screens/pages/previsions.dart';
 import 'package:check_elec/screens/pages/rechargeScreen.dart';
+import 'package:check_elec/screens/pages/releveCompteur.dart';
 import 'package:check_elec/screens/root/homepage/widgets/ServicesCard.dart';
 import 'package:check_elec/screens/pages/settings.dart';
 import 'package:flutter/material.dart';
@@ -181,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ServicesCard(
                           asset: "assets/icons/history.png",
                           title: "Voir mon \nhistorique",
-                          widget: RechargeScreen()),
+                          widget: ReleveCompteurScreen()),
                     ],
                   ),
                 )

@@ -43,7 +43,10 @@ class _InscriptionScreenState extends State<InscriptionScreen> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              SizedBox(height: height / 6.5),
+              SizedBox(height: height / 11),
+              Image.asset(
+                'assets/images/logo_whitout_bg.PNG',
+              ),
               Text(
                 'Inscription',
                 style: TextStyle(fontSize: width / 10),

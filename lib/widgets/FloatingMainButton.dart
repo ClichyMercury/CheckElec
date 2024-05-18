@@ -4,16 +4,17 @@ class FloatingActionMainButton extends StatelessWidget {
   const FloatingActionMainButton({
     super.key,
     required this.color,
-    required this.title,
+    required this.title, required this.ontap,
   });
 
   final Color color;
   final String title;
+  final VoidCallback ontap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: ontap,
       child: Container(
         height: 61,
         decoration: ShapeDecoration(
