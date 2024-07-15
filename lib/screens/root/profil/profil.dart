@@ -324,8 +324,8 @@ class _MyMyProlileState extends State<MyMyProlile> {
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Quantité: ${equipment.quantity}'),
-              Text('Puissance: ${equipment.power}'),
+              Text('QT: ${equipment.quantity}'),
+              Text('PW: ${equipment.power}'),
             ],
           ),
           trailing: IconButton(

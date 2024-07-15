@@ -4,8 +4,10 @@ import 'package:check_elec/screens/pages/enregistrementCompteur.dart';
 import 'package:check_elec/widgets/MainButton.dart';
 import 'package:check_elec/widgets/alertDialog.dart';
 import 'package:check_elec/widgets/iosAlertDialog.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
+import 'package:flutter/widgets.dart';
 
 class InscriptionScreen extends StatefulWidget {
   const InscriptionScreen({
@@ -46,6 +48,7 @@ class _InscriptionScreenState extends State<InscriptionScreen> {
               SizedBox(height: height / 11),
               Image.asset(
                 'assets/images/logo_whitout_bg.PNG',
+                height: 100,
               ),
               Text(
                 'Inscription',
@@ -225,10 +228,25 @@ class _InscriptionScreenState extends State<InscriptionScreen> {
                       });
                     },
                   ),
-                  const Text(
-                    "Accepter les conditions d'utilisations",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500, color: Colors.black),
+                  Text.rich(
+                    TextSpan(
+                      text: 'Accepter les ',
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "conditions d'utilisation",
+                          style: TextStyle(
+                              color: CustumTheme.orangeMainColor,
+                              decoration: TextDecoration.underline,
+                              decorationThickness: 2.0,
+                              decorationColor: CustumTheme.orangeMainColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // Action à effectuer lors du clic
+                              print('Texte cliqué!');
+                            },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
