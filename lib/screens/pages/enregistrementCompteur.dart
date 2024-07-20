@@ -1,10 +1,15 @@
+import 'package:check_elec/data/data_repository.dart';
+import 'package:check_elec/models/compteurModel.dart';
 import 'package:check_elec/screens/root.dart';
 import 'package:check_elec/widgets/MainButton.dart';
 import 'package:check_elec/widgets/alertDialog.dart';
 import 'package:check_elec/widgets/iosAlertDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
+import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EnregistrementCompteurScreen extends StatefulWidget {
   const EnregistrementCompteurScreen({
@@ -31,6 +36,61 @@ class _EnregistrementCompteurScreenState
   FocusNode localisationFocusNode = FocusNode();
   FocusNode frequencyFocusNode = FocusNode();
   FocusNode avarageAmoutFocusNode = FocusNode();
+
+  Future<String?> _getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userId');
+  }
+
+  Future<String?> _getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('accessToken');
+  }
+
+  Future<void> _createCompteur() async {
+  setState(() {
+    isLoading = true;
+  });
+
+  String? userId = await _getUserId();
+  String? accessToken = await _getAccessToken();
+
+  if (userId != null && accessToken != null) {
+    Compteur newCompteur = Compteur(
+      numeroCompteur: comptNumberController.text,
+      localisation: localisationController.text,
+      typeLocal: localController.text,
+      frequenceMoyRechargement: int.parse(frequencyController.text),
+      montantMoyRechargement: double.parse(avarageAmoutController.text),
+      userId: userId,
+    );
+
+    DataRepository dataRepository = Provider.of<DataRepository>(context, listen: false);
+    await dataRepository.createCompteur(newCompteur, accessToken);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Root()),
+    );
+  } else {
+    if (Platform.isIOS) {
+      iosShowAlertDialog(context,
+          title: "Erreur",
+          content: "Impossible de récupérer l'ID de l'utilisateur ou le token.",
+          defaultActionText: "OK");
+    } else {
+      showAlertDialog(context,
+          title: "Erreur",
+          content: "Impossible de récupérer l'ID de l'utilisateur ou le token.",
+          defaultActionText: "OK");
+    }
+  }
+
+  setState(() {
+    isLoading = false;
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -196,16 +256,13 @@ class _EnregistrementCompteurScreenState
               ),
               SizedBox(height: 20.5),
               Mainbutton(
-                  onTap: () {
+                  onTap: () async {
                     if (localController.text.isNotEmpty &&
                         comptNumberController.text.isNotEmpty &&
                         localController.text.isNotEmpty &&
                         frequencyController.text.isNotEmpty &&
                         avarageAmoutController.text.isNotEmpty) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Root()));
+                      await _createCompteur();
                     } else {
                       if (Platform.isIOS) {
                         iosShowAlertDialog(context,

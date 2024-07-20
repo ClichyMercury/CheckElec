@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:check_elec/data/data_repository.dart';
 import 'package:check_elec/screens/connection/connection.dart';
 import 'package:check_elec/screens/pages/enregistrementCompteur.dart';
 import 'package:check_elec/widgets/MainButton.dart';
@@ -7,7 +8,7 @@ import 'package:check_elec/widgets/iosAlertDialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class InscriptionScreen extends StatefulWidget {
   const InscriptionScreen({
@@ -34,8 +35,49 @@ class _InscriptionScreenState extends State<InscriptionScreen> {
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
+  void _registerUser(DataRepository dataRepository) async {
+    await dataRepository.registerUser(
+      firstName: nameController.text,
+      lastName: firstNameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    final user = dataRepository.user;
+    if (user != null) {
+      dataRepository.loginUser(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      print('Inscription réussie : ${user.firstName} ${user.lastName}');
+      print('Utilisateur ID : ${user.id}');
+      nameController.clear();
+      firstNameController.clear();
+      phoneController.clear();
+      emailController.clear();
+      passwordController.clear();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (builder) => const EnregistrementCompteurScreen()));
+    } else {
+      print('Inscription échouée');
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    firstNameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final dataRepository = Provider.of<DataRepository>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -259,11 +301,7 @@ class _InscriptionScreenState extends State<InscriptionScreen> {
                         firstNameController.text.isNotEmpty &&
                         phoneController.text.isNotEmpty) {
                       if (isPolicyAccepted) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (builder) =>
-                                    const EnregistrementCompteurScreen()));
+                        _registerUser(dataRepository);
                       }
                     } else {
                       if (Platform.isIOS) {
@@ -285,7 +323,7 @@ class _InscriptionScreenState extends State<InscriptionScreen> {
                   btnColor: isPolicyAccepted
                       ? CustumTheme.orangeMainColor
                       : CustumTheme.orangeMainColor.withOpacity(0.3),
-                  loading: isLoading),
+                  loading: dataRepository.isLoading),
               SizedBox(height: 20.5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

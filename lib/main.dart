@@ -1,9 +1,18 @@
+import 'dart:io';
+
 import 'package:check_elec/constant/palette.dart';
+import 'package:check_elec/data/data_repository.dart';
 import 'package:check_elec/screens/connection/connection.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
+  runApp(ChangeNotifierProvider(
+    create: (BuildContext context) => DataRepository(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,16 +20,35 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: "Isophan",
-        primaryColor: Palette.orangeToWhite,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange.shade500),
-        useMaterial3: true,
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Meter Manager',
+        theme: ThemeData(
+          fontFamily: "Isophan",
+          primaryColor: Palette.orangeToWhite,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange.shade500),
+          useMaterial3: true,
+        ),
+        home: const ConnectionScreen(),
       ),
-      home: const ConnectionScreen(),
     );
+  }
+}
+
+// Désactiver la vérification SSL pour le développement
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

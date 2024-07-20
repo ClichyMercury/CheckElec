@@ -1,3 +1,4 @@
+import 'package:check_elec/data/data_repository.dart';
 import 'package:check_elec/screens/connection/inscription.dart';
 import 'package:check_elec/screens/root.dart';
 import 'package:check_elec/widgets/MainButton.dart';
@@ -6,6 +7,8 @@ import 'package:check_elec/widgets/iosAlertDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
 import 'dart:io' show Platform;
+
+import 'package:provider/provider.dart';
 
 class ConnectionScreen extends StatefulWidget {
   const ConnectionScreen({
@@ -18,15 +21,36 @@ class ConnectionScreen extends StatefulWidget {
 
 class _ConnectionScreenState extends State<ConnectionScreen> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passxordController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   bool isObs = false;
   bool isLoading = false;
 
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
+  void _registerUser(DataRepository dataRepository) async {
+    await dataRepository.loginUser(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    final user = dataRepository.user;
+    if (user != null) {
+      print('Inscription réussie : ${user.firstName} ${user.lastName}');
+      print('Utilisateur ID : ${user.id}');
+
+      emailController.clear();
+      passwordController.clear();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => const Root()));
+    } else {
+      print('Inscription échouée');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final dataRepository = Provider.of<DataRepository>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -79,7 +103,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                 focusNode: passwordFocusNode,
                 textInputAction: TextInputAction.done,
                 autocorrect: false,
-                controller: passxordController,
+                controller: passwordController,
                 textAlignVertical: TextAlignVertical.center,
                 obscureText: isObs,
                 keyboardType: TextInputType.visiblePassword,
@@ -141,9 +165,8 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
               Mainbutton(
                   onTap: () {
                     if (emailController.text.isNotEmpty &&
-                        passxordController.text.isNotEmpty) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Root()));
+                        passwordController.text.isNotEmpty) {
+                      _registerUser(dataRepository);
                     } else {
                       if (Platform.isIOS) {
                         iosShowAlertDialog(context,
@@ -162,7 +185,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                   },
                   text: 'Connection',
                   btnColor: CustumTheme.orangeMainColor,
-                  loading: isLoading),
+                  loading: dataRepository.isLoading),
               SizedBox(height: 20.5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
