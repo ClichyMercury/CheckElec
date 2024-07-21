@@ -62,6 +62,19 @@ class _InscriptionScreenState extends State<InscriptionScreen> {
               builder: (builder) => const EnregistrementCompteurScreen()));
     } else {
       print('Inscription échouée');
+      if (dataRepository.errorMessage != null) {
+        _showErrorDialog(context, dataRepository.errorMessage!);
+      }
+    }
+  }
+
+  void _showErrorDialog(BuildContext context, String errorMessage) {
+    if (Platform.isIOS) {
+      iosShowAlertDialog(context,
+          title: 'Erreur', content: errorMessage, defaultActionText: 'okay');
+    } else {
+      showAlertDialog(context,
+          title: 'Erreur', content: errorMessage, defaultActionText: 'okay');
     }
   }
 

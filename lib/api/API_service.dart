@@ -3,6 +3,11 @@ import 'dart:convert';
 import 'package:check_elec/models/compteurModel.dart';
 import 'package:check_elec/models/userModel.dart';
 
+class ApiException implements Exception {
+  final String message;
+  ApiException(this.message);
+}
+
 class ApiService {
   final Dio _dio = Dio();
 
@@ -34,16 +39,14 @@ class ApiService {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return User.fromJson(response.data['user']);
       } else {
-        print('Error: ${response.data}');
-        return null;
+        throw ApiException('Failed to register user: ${response.data}');
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        print('Error: ${e.response?.data}');
+        throw ApiException('Error: ${e.response?.data}');
       } else {
-        print('Error: $e');
+        throw ApiException('Error: $e');
       }
-      return null;
     }
   }
 
@@ -74,17 +77,14 @@ class ApiService {
           'user': user,
         };
       } else {
-        // Gérer les messages d'erreur
-        print('Error: ${response.data}');
-        return null;
+        throw ApiException('Failed to login: ${response.data}');
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        print('Error: ${e.response?.data}');
+        throw ApiException('Error: ${e.response?.data}');
       } else {
-        print('Error: $e');
+        throw ApiException('Error: $e');
       }
-      return null;
     }
   }
 
@@ -107,16 +107,14 @@ class ApiService {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Compteur.fromJson(response.data['data']);
       } else {
-        print('Error: ${response.data}');
-        return null;
+        throw ApiException('Failed to add compteur: ${response.data}');
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        print('Error: ${e.response?.data}');
+        throw ApiException('Error: ${e.response?.data}');
       } else {
-        print('Error: $e');
+        throw ApiException('Error: $e');
       }
-      return null;
     }
   }
 
@@ -136,16 +134,14 @@ class ApiService {
         List<dynamic> data = response.data;
         return data.map((json) => Compteur.fromJson(json)).toList();
       } else {
-        print('Error: ${response.statusMessage}');
-        return null;
+        throw ApiException('Failed to get user compteurs: ${response.statusMessage}');
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        print('Error: ${e.response?.data}');
+        throw ApiException('Error: ${e.response?.data}');
       } else {
-        print('Error: $e');
+        throw ApiException('Error: $e');
       }
-      return null;
     }
   }
 }

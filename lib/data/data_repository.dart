@@ -10,10 +10,12 @@ class DataRepository with ChangeNotifier {
   List<Compteur>? _compteurs;
   bool _isLoading = false;
   String? _accessToken;
+  String? _errorMessage;
 
   User? get user => _user;
   bool get isLoading => _isLoading;
   String? get accessToken => _accessToken;
+  String? get errorMessage => _errorMessage;
   List<Compteur>? get compteurs => _compteurs;
 
   Future<void> registerUser({
@@ -23,23 +25,25 @@ class DataRepository with ChangeNotifier {
     required String password,
   }) async {
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
 
-    final registeredUser = await apiService.registerUser(
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-    );
+    try {
+      final registeredUser = await apiService.registerUser(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+      );
 
-    if (registeredUser != null) {
-      _user = registeredUser;
-      // Sauvegarder l'access token localement (exemple avec shared_preferences)
-      await saveUserId(user!.id);
-      print('Inscription réussie : ${_user?.firstName} ${_user?.lastName}');
-    } else {
-      // Affiche un message d'erreur seulement si l'utilisateur n'est pas enregistré
-      print('Inscription échouée : un problème est survenue');
+      if (registeredUser != null) {
+        _user = registeredUser;
+        await saveUserId(user!.id);
+      } else {
+        _errorMessage = 'Registration failed';
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
     }
 
     _isLoading = false;
@@ -47,7 +51,6 @@ class DataRepository with ChangeNotifier {
   }
 
   Future<void> saveUserId(String userId) async {
-    // Exemple avec shared_preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('userId', userId);
   }
@@ -57,24 +60,24 @@ class DataRepository with ChangeNotifier {
     required String password,
   }) async {
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
 
-    final loginData = await apiService.loginUser(
-      email: email,
-      password: password,
-    );
+    try {
+      final loginData = await apiService.loginUser(
+        email: email,
+        password: password,
+      );
 
-    if (loginData != null) {
-      _user = loginData['user'];
-      _accessToken = loginData['accessToken'];
-
-      // Sauvegarder l'access token localement (exemple avec shared_preferences)
-      await saveAccessToken(_accessToken!);
-
-      print('Login successful: ${_user?.firstName} ${_user?.lastName}');
-    } else {
-      // Affiche un message d'erreur seulement si le login échoue
-      print('Login failed');
+      if (loginData != null) {
+        _user = loginData['user'];
+        _accessToken = loginData['accessToken'];
+        await saveAccessToken(_accessToken!);
+      } else {
+        _errorMessage = 'Login failed';
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
     }
 
     _isLoading = false;
@@ -82,16 +85,20 @@ class DataRepository with ChangeNotifier {
   }
 
   Future<void> saveAccessToken(String accessToken) async {
-    // Exemple avec shared_preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('accessToken', accessToken);
   }
 
   Future<void> fetchUserCompteurs(String userId, String token) async {
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
 
-    _compteurs = await apiService.getUserCompteurs(userId, token);
+    try {
+      _compteurs = await apiService.getUserCompteurs(userId, token);
+    } catch (e) {
+      _errorMessage = e.toString();
+    }
 
     _isLoading = false;
     notifyListeners();
@@ -99,12 +106,19 @@ class DataRepository with ChangeNotifier {
 
   Future<void> createCompteur(Compteur compteur, String token) async {
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
 
-    final newCompteur = await apiService.addCompteur(compteur, token);
+    try {
+      final newCompteur = await apiService.addCompteur(compteur, token);
 
-    if (newCompteur != null) {
-      _compteurs?.add(newCompteur);
+      if (newCompteur != null) {
+        _compteurs?.add(newCompteur);
+      } else {
+        _errorMessage = 'Failed to add compteur';
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
     }
 
     _isLoading = false;
