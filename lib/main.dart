@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:check_elec/constant/palette.dart';
 import 'package:check_elec/data/data_repository.dart';
 import 'package:check_elec/screens/connection/connection.dart';
+import 'package:check_elec/screens/root.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

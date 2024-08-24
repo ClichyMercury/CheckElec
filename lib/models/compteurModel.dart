@@ -5,6 +5,7 @@ class Compteur {
   final int frequenceMoyRechargement;
   final double montantMoyRechargement;
   final String userId;
+  String? compteurId;
 
   Compteur({
     required this.numeroCompteur,
@@ -13,6 +14,7 @@ class Compteur {
     required this.frequenceMoyRechargement,
     required this.montantMoyRechargement,
     required this.userId,
+    this.compteurId,
   });
 
   factory Compteur.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Compteur {
       frequenceMoyRechargement: json['frequence_moy_rechargement'],
       montantMoyRechargement: json['montant_moy_rechargement'].toDouble(),
       userId: json['user_id'],
+      compteurId: json['id'],
     );
   }
 
@@ -34,6 +37,7 @@ class Compteur {
       'frequence_moy_rechargement': frequenceMoyRechargement,
       'montant_moy_rechargement': montantMoyRechargement,
       'user_id': userId,
+      'id': compteurId,
     };
   }
 }

@@ -2,10 +2,8 @@ import 'package:check_elec/models/equipementModel.dart';
 import 'package:check_elec/screens/pages/settings.dart';
 import 'package:check_elec/widgets/alertDialog.dart';
 import 'package:check_elec/widgets/iosAlertDialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:check_elec/constant/custumTheme.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:io' show Platform;
 
 class MyMyProlile extends StatefulWidget {
@@ -19,7 +17,16 @@ class MyMyProlile extends StatefulWidget {
 
 class _MyMyProlileState extends State<MyMyProlile> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-
+  final List<String> averageUseTime = [
+    'Moins de 2O min',
+    '30 min',
+    '1 heure',
+    '2 heures',
+    '5 heures',
+    '8 heures',
+    '15 heures',
+    '24 heures'
+  ];
   final List<Equipment> equipmentList =
       []; /* List.generate(
     10,
@@ -49,6 +56,7 @@ class _MyMyProlileState extends State<MyMyProlile> {
     TextEditingController powerController = TextEditingController();
 
     String selectedQuantity = '1';
+    String selectedAverageUseTime = 'Moins de 2O min';
 
     showModalBottomSheet(
       context: context,
@@ -59,10 +67,18 @@ class _MyMyProlileState extends State<MyMyProlile> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                    labelText: 'Entrer le nom de l\'équipement'),
+              Card(
+                elevation: 4,
+                shadowColor: CustumTheme.orangeMainColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Entrer le nom de l\'équipement'),
+                  ),
+                ),
               ),
               SizedBox(height: 20.0),
               Row(
@@ -70,30 +86,87 @@ class _MyMyProlileState extends State<MyMyProlile> {
                   Column(
                     children: [
                       Text('Nombre d\'appareils:'),
-                      DropdownButton<String>(
-                        value: selectedQuantity,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedQuantity = newValue!;
-                          });
-                        },
-                        items: <String>['1', '2', '3', '4', '5']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                      Card(
+                        elevation: 4,
+                        shadowColor: CustumTheme.orangeMainColor,
+                        child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: selectedQuantity,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedQuantity = newValue!;
+                                });
+                              },
+                              items: <String>[
+                                '1',
+                                '2',
+                                '3',
+                                '4',
+                                '5'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   Expanded(
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: powerController,
-                      decoration: InputDecoration(
-                          labelText: 'Entrer la puissance',
-                          hintText: 'En Watt'),
+                    child: Card(
+                      elevation: 4,
+                      shadowColor: CustumTheme.orangeMainColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: powerController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: 'Entrer la puissance',
+                              hintText: 'En Watt'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      Text('Temps moyen d\'utilisation'),
+                    ],
+                  ),
+                  Card(
+                    elevation: 4,
+                    shadowColor: CustumTheme.orangeMainColor,
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedAverageUseTime,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedAverageUseTime = newValue!;
+                            });
+                          },
+                          items: averageUseTime
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
                     ),
                   ),
                 ],

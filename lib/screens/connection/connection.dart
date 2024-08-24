@@ -9,6 +9,7 @@ import 'package:check_elec/constant/custumTheme.dart';
 import 'dart:io' show Platform;
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConnectionScreen extends StatefulWidget {
   const ConnectionScreen({
@@ -28,20 +29,33 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
+  Future<String?> _getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userId');
+  }
+
+  Future<String?> _getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('accessToken');
+  }
+
   void _registerUser(DataRepository dataRepository) async {
     await dataRepository.loginUser(
       email: emailController.text,
       password: passwordController.text,
     );
 
+    String? userId = await _getUserId();
+    String? accessToken = await _getAccessToken();
+
     final user = dataRepository.user;
     if (user != null) {
-      print('Inscription réussie : ${user.firstName} ${user.lastName}');
+      print('Connexion réussie : ${user.firstName} ${user.lastName}');
       print('Utilisateur ID : ${user.id}');
 
       emailController.clear();
       passwordController.clear();
-
+      await dataRepository.fetchUserCompteurs(userId!, accessToken!);
       Navigator.push(
           context, MaterialPageRoute(builder: (builder) => const Root()));
     } else {

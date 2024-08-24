@@ -73,6 +73,7 @@ class DataRepository with ChangeNotifier {
         _user = loginData['user'];
         _accessToken = loginData['accessToken'];
         await saveAccessToken(_accessToken!);
+        await saveUserId(user!.id);
       } else {
         _errorMessage = 'Login failed';
       }
@@ -116,6 +117,32 @@ class DataRepository with ChangeNotifier {
         _compteurs?.add(newCompteur);
       } else {
         _errorMessage = 'Failed to add compteur';
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+    // Nouvelle méthode pour mettre à jour un compteur existant
+  Future<void> updateCompteur(String id, Compteur compteur, String token) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final updatedCompteur = await apiService.updateCompteur(id, compteur, token);
+
+      if (updatedCompteur != null) {
+        // Mettre à jour la liste des compteurs avec le compteur mis à jour
+        int index = _compteurs!.indexWhere((comp) => comp.compteurId == id);
+        if (index != -1) {
+          _compteurs![index] = updatedCompteur;
+        }
+      } else {
+        _errorMessage = 'Failed to update compteur';
       }
     } catch (e) {
       _errorMessage = e.toString();

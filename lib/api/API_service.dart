@@ -132,11 +132,53 @@ class ApiService {
 
       if (response.statusCode == 200) {
         List<dynamic> data = response.data;
+        print(data);
         return data.map((json) => Compteur.fromJson(json)).toList();
       } else {
-        throw ApiException('Failed to get user compteurs: ${response.statusMessage}');
+        throw ApiException(
+            'Failed to get user compteurs: ${response.statusMessage}');
       }
     } on DioException catch (e) {
+      if (e.response != null) {
+        throw ApiException('Error: ${e.response?.data}');
+      } else {
+        throw ApiException('Error: $e');
+      }
+    }
+  }
+
+  Future<Compteur?> updateCompteur(
+    String id,
+    Compteur compteur,
+    String token,
+  ) async {
+    try {
+      print('Token: $token'); // Pour vérifier si le token est bien transmis
+      print('Compteur ID: $id'); // Pour vérifier l'ID du compteur
+
+      final response = await _dio.put(
+        '/compteurs/update/$id',
+        data: json.encode(compteur.toJson()),
+        options: Options(
+          headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      print('Response: ${response.data}'); // Pour vérifier la réponse brute
+      print('Status Code: ${response.statusCode}');
+      print('Headers: ${response.headers}');
+
+      if (response.statusCode == 200) {
+        return Compteur.fromJson(response.data['data']);
+      } else {
+        throw ApiException('Failed to update compteur: ${response.data}');
+      }
+    } on DioException catch (e) {
+      print(
+          'DioException: ${e.response?.data}'); // Affichez les détails de l'erreur
+
       if (e.response != null) {
         throw ApiException('Error: ${e.response?.data}');
       } else {

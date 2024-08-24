@@ -59,7 +59,10 @@ class _InscriptionScreenState extends State<InscriptionScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (builder) => const EnregistrementCompteurScreen()));
+              builder: (builder) =>  EnregistrementCompteurScreen(
+                    createOrUpdate: false,
+                    enableBack: false,
+                  )));
     } else {
       print('Inscription échouée');
       if (dataRepository.errorMessage != null) {
