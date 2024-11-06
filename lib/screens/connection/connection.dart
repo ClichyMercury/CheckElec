@@ -21,8 +21,10 @@ class ConnectionScreen extends StatefulWidget {
 }
 
 class _ConnectionScreenState extends State<ConnectionScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController =
+      TextEditingController(text: 'angie@martiale.ci');
+  TextEditingController passwordController =
+      TextEditingController(text: '12345678');
   bool isObs = false;
   bool isLoading = false;
 

@@ -39,6 +39,7 @@ class DataRepository with ChangeNotifier {
       if (registeredUser != null) {
         _user = registeredUser;
         await saveUserId(user!.id);
+        await saveUserToPrefs(user!);
       } else {
         _errorMessage = 'Registration failed';
       }
@@ -53,6 +54,20 @@ class DataRepository with ChangeNotifier {
   Future<void> saveUserId(String userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('userId', userId);
+  }
+
+  Future<void> saveUserToPrefs(User user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user', user.toRawJson());
+  }
+
+  Future<void> loadUserFromPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString('user');
+    if (userJson != null) {
+      _user = User.fromRawJson(userJson);
+      notifyListeners();
+    }
   }
 
   Future<void> loginUser({
@@ -74,6 +89,7 @@ class DataRepository with ChangeNotifier {
         _accessToken = loginData['accessToken'];
         await saveAccessToken(_accessToken!);
         await saveUserId(user!.id);
+        await saveUserToPrefs(user!);
       } else {
         _errorMessage = 'Login failed';
       }
@@ -126,7 +142,7 @@ class DataRepository with ChangeNotifier {
     notifyListeners();
   }
 
-    // Nouvelle méthode pour mettre à jour un compteur existant
+  // Nouvelle méthode pour mettre à jour un compteur existant
   Future<void> updateCompteur(String id, Compteur compteur, String token) async {
     _isLoading = true;
     _errorMessage = null;

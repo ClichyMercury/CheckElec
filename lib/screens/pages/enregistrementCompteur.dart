@@ -147,6 +147,7 @@ class _EnregistrementCompteurScreenState
         context,
         MaterialPageRoute(builder: (context) => const Root()),
       );
+      await dataRepository.fetchUserCompteurs(userId, accessToken);
     } else {
       // Affiche une alerte si l'ID utilisateur ou le token est introuvable
       if (Platform.isIOS) {

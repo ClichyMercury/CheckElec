@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:check_elec/constant/palette.dart';
 import 'package:check_elec/data/data_repository.dart';
-import 'package:check_elec/screens/connection/connection.dart';
-import 'package:check_elec/screens/root.dart';
+import 'package:check_elec/screens/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +36,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange.shade500),
           useMaterial3: true,
         ),
-        home: const ConnectionScreen(),
+        home: SplashScreen(),
       ),
     );
   }
